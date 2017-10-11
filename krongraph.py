@@ -31,7 +31,6 @@ class KronGraph:
 
         self.create_sample()
 
-    @profile
     def weight_vector_part(self, node):
         i = node % self.Kk_size
         nodebin = bin(i)[2:].zfill(self.k)
@@ -50,7 +49,6 @@ class KronGraph:
                 dotprod *= self.kron_sqr[0]
         return xi, vecsum, dotprod
 
-    @profile
     def node_nbs_part(self, node, n, p, n_total):
         w_vec, vecsum, dotprod = self.weight_vector_part(node)
         mu = vecsum * n * p
@@ -61,7 +59,6 @@ class KronGraph:
         weights = np.repeat(w_vec, n)
         return np.random.choice(np.arange(n_total), n_nbs, p=weights, replace=False)
 
-    @profile
     def create_sample(self):  # p0 = (1-beta), p1 = 1
         sample_negative = set(np.random.choice(np.arange(self.n_negative), self.n_negative_sampled, replace=False))
         sample_positive = set(self.n_negative + np.random.choice(np.arange(self.n_positive), self.n_positive_sampled, replace=False))
@@ -105,7 +102,6 @@ class KronGraph:
     def nb1_ratio(self, node):
         return self.sample[node]['nb1_ratio']
         
-    @profile
     def subsample_params_calc(self, subsample_perc):
         subsample_size = int(self.n_nodes * subsample_perc)
         if subsample_size > self.sample_size:
