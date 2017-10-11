@@ -68,7 +68,12 @@ class KronGraph:
         self.sample = {n: {} for n in sample_negative}
         self.sample.update({n: {} for n in sample_positive})
 
+        nodes_to_calc = len(self.sample)
+        print_each = int(nodes_to_calc * 0.1)
+        i = 0
         for node in sample_negative:
+            i += 1
+            if not i%print_each: print('Calulating node {}/{}'.format(i,nodes_to_calc))
             negative_nbs = set(self.node_nbs_part(node, self.n0, self.p_in_b, self.n_negative))
             self.sample[node]['nb_neg'] = len(negative_nbs)
             self.sample[node]['nb_neg_samp'] = len(negative_nbs & sample_negative)
@@ -81,6 +86,8 @@ class KronGraph:
             self.sample[node]['nb1_ratio'] = self.sample[node]['nb_pos'] / self.sample[node]['nb_neg']
 
         for node in sample_positive:
+            i += 1
+            if not i%print_each: print('Calulating node {}/{}'.format(i,nodes_to_calc))
             negative_nbs = set(self.node_nbs_part(node, self.n0, self.p_out, self.n_negative))
             self.sample[node]['nb_neg'] = len(negative_nbs)
             self.sample[node]['nb_neg_samp'] = len(negative_nbs & sample_negative)
@@ -138,36 +145,38 @@ class KronGraph:
 
 
 
-kron = np.array([[0.770117, 0.794312], [0.794312, 0.0965146]])
-k = 15
-n0 = 2
-n1 = 1
-p_in_a = 1
-p_in_b = 1
-p_out = 0.5
-sample_perc = 0.1
-beta = 0
+if(True):
+    
+    kron = np.array([[0.770117, 0.794312], [0.794312, 0.0965146]])
+    k = 18
+    n0 = 2
+    n1 = 1
+    p_in_a = 1
+    p_in_b = 1
+    p_out = 0.5
+    sample_perc = 0.01
+    beta = 0.8
 
 
-kg = KronGraph(kron, k, n0, n1, p_in_a, p_in_b, p_out, sample_perc, beta)
-kg.subsample_params_calc(sample_perc)
+    kg = KronGraph(kron, k, n0, n1, p_in_a, p_in_b, p_out, sample_perc, beta)
+    kg.subsample_params_calc(sample_perc)
 
-a = kg.mu_a
-b = kg.mu_b
-print('a:', a)
-print('b:', b)
+    a = kg.mu_a
+    b = kg.mu_b
+    print('a:', a)
+    print('b:', b)
 
-q = (-b + math.sqrt(a*b))/(a - b)
-print('q:', q)
+    q = (-b + math.sqrt(a*b))/(a - b)
+    print('q:', q)
 
-print('p in a:', kg.p_in_a_approx)
-print('p in b:', kg.p_in_b_approx)
-print('p out:', kg.p_out_approx)
+    print('p in a:', kg.p_in_a_approx)
+    print('p in b:', kg.p_in_b_approx)
+    print('p out:', kg.p_out_approx)
 
-Ra = p_out/p_in_a
-Rb = p_out/p_in_b
-x1 = Ra / (a + Ra)
-x2 = b / (b + Rb)
-q_p_app = (x1 + x2) / 2
-print('q p_app:', q_p_app)
+    Ra = p_out/p_in_a
+    Rb = p_out/p_in_b
+    x1 = Ra / (a + Ra)
+    x2 = b / (b + Rb)
+    q_p_app = (x1 + x2) / 2
+    print('q p_app:', q_p_app)
 
