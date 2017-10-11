@@ -151,35 +151,36 @@ class KronGraph:
         self.q_p_app = (x1 + x2) / 2
 
 
-if (False):
-    kron = np.array([[0.770117, 0.794312], [0.794312, 0.0965146]])
-    k = 18
-    n0 = 2
-    n1 = 1
-    p_in_a = 1
-    p_in_b = 1
-    p_out = 0.5
-    sample_perc = 0.01
-    beta = 0.8
+'''
+kron = np.array([[0.770117, 0.794312], [0.794312, 0.0965146]])
+k = 18
+n0 = 2
+n1 = 1
+p_in_a = 1
+p_in_b = 1
+p_out = 0.5
+sample_perc = 0.01
+beta = 0.8
 
-    kg = KronGraph(kron, k, n0, n1, p_in_a, p_in_b, p_out, sample_perc, beta)
-    kg.subsample_params_calc(sample_perc)
+kg = KronGraph(kron, k, n0, n1, p_in_a, p_in_b, p_out, sample_perc, beta)
+kg.subsample_params_calc(sample_perc)
 
-    a = kg.mu_a
-    b = kg.mu_b
-    print('a:', a)
-    print('b:', b)
+a = kg.mu_a
+b = kg.mu_b
+print('a:', a)
+print('b:', b)
 
-    q = (-b + math.sqrt(a * b)) / (a - b)
-    print('q:', q)
+q = (-b + math.sqrt(a * b)) / (a - b)
+print('q:', q)
 
-    print('p in a:', kg.p_in_a_approx)
-    print('p in b:', kg.p_in_b_approx)
-    print('p out:', kg.p_out_approx)
+print('p in a:', kg.p_in_a_approx)
+print('p in b:', kg.p_in_b_approx)
+print('p out:', kg.p_out_approx)
 
-    Ra = p_out / p_in_a
-    Rb = p_out / p_in_b
-    x1 = Ra / (a + Ra)
-    x2 = b / (b + Rb)
-    q_p_app = (x1 + x2) / 2
-    print('q p_app:', q_p_app)
+Ra = p_out / p_in_a
+Rb = p_out / p_in_b
+x1 = Ra / (a + Ra)
+x2 = b / (b + Rb)
+q_p_app = (x1 + x2) / 2
+print('q p_app:', q_p_app)
+'''
