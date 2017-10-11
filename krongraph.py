@@ -65,8 +65,8 @@ class KronGraph:
         sigma = math.sqrt((vecsum - dotprod * p) * n * p)
         n_nbs = int(np.round(np.random.normal(loc=mu, scale=sigma)))
         if n_nbs < 1: n_nbs = 1
-        weights = np.repeat(w_vec, n) * p
-        weights = weights / weights.sum()
+        w_vec = w_vec / (vecsum * n)
+        weights = np.repeat(w_vec, n)
         return np.random.choice(np.arange(n_total), n_nbs, p=weights, replace=False)
 
     def create_sample(self):  # p0 = (1-beta), p1 = 1
@@ -123,7 +123,7 @@ n1 = 1
 p_in_a = 1
 p_in_b = 1
 p_out = 0.5
-sample_size = 10000
+sample_size = 1000
 beta = 0
 
 
