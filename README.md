@@ -5,5 +5,5 @@ First, we have analysed how the social neighbourhood is related to a person's vo
 
 Supplement project code demonstrating the election results estimation from the biased network samples is presented in the [performance analysis notebook](performance_analysis.ipynb). 
 
-Author: Ivan Bestvina
+Author: Ivan Bestvina  
 Mentor: Mile Šikić, PhD
