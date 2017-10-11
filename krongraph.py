@@ -29,6 +29,9 @@ class KronGraph:
         self.sampled_p = self.n_positive_sampled
 
         self.n_edges = {(0, 0): 0, (0, 1): 0, (1, 0): 0, (1, 1): 0}
+        
+        self
+        
 
         self.create_sample()
 
@@ -41,20 +44,21 @@ class KronGraph:
         i = node % self.Kk_size
         nodebin = bin(i)[2:].zfill(self.k)
         xi = np.array([1])
-        vecsum = 0
+        vecsum = 1
         dotprod = 1
         kron_sqr = [self.kron[0].dot(self.kron[0]), self.kron[1].dot(self.kron[1])]
         for i in nodebin:
             if i is '1':
-                xi = np.kron(xi, self.kron[1])
-                vecsum += self.kron_sum[1]
+                xi = np.concatenate((xi * self.kron[1][0], xi * self.kron[1][1]))
+                vecsum *= self.kron_sum[1]
                 dotprod *= kron_sqr[1]
             else:
-                xi = np.kron(xi, self.kron[0])
-                vecsum += self.kron_sum[0]
+                xi = np.concatenate((xi * self.kron[0][0], xi * self.kron[0][1]))
+                vecsum *= self.kron_sum[0]
                 dotprod *= kron_sqr[0]
         return xi, vecsum, dotprod
 
+    @profile
     def node_nbs_part(self, node, n, p, n_total):
         w_vec, vecsum, dotprod = self.weight_vector_part(node)
         mu = vecsum * n * p
@@ -111,16 +115,16 @@ class KronGraph:
         return self.sample[node]['nb1_ratio']
 
 
-#
-# kron = np.array([[0.770117, 0.794312], [0.794312, 0.0965146]])
-# k = 15
-# n0 = 1
-# n1 = 1
-# p_in_a = 1
-# p_in_b = 1
-# p_out = 0.5
-# sample_size = 10000
-# beta = 0
-#
-#
-# kg = KronGraph(kron, k, n0, n1, p_in_a, p_in_b, p_out, sample_size, beta)
+
+kron = np.array([[0.770117, 0.794312], [0.794312, 0.0965146]])
+k = 16
+n0 = 1
+n1 = 1
+p_in_a = 1
+p_in_b = 1
+p_out = 0.5
+sample_size = 10000
+beta = 0
+
+
+kg = KronGraph(kron, k, n0, n1, p_in_a, p_in_b, p_out, sample_size, beta)
