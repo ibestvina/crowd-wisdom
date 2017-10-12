@@ -26,8 +26,8 @@ def result_to_str(net, kg, beta, sample_perc):
     return ','.join([str(s) for s in [net.k, net.n0, net.n1, net.p_in_a, net.p_in_b, net.p_out, beta,
                                       sample_perc, kg.mu_a, kg.mu_b, kg.p_in_a_approx, kg.p_in_b_approx, kg.q, kg.q_p_app]])
 
-nets = pd.read_csv('nets_to_sample.csv')
-net = nets.iloc[netid]
+nets = pd.read_csv('nets_to_sample.csv', index_col='id')
+net = nets.loc[netid]
 
 sample_cnt = 20
 sample_at = np.linspace(0, net.sample_size, sample_cnt+1)[1:]
