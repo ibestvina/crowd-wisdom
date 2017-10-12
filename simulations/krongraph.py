@@ -23,7 +23,10 @@ class KronGraph:
         self.n_positive = int(self.n_nodes - self.n_negative)
         self.sample_size = int(self.n_nodes * sample_perc)
 
-        self.p0 = (1 - self.beta) / (2 - self.beta)
+        self.p0 = n0 * (1 - self.beta) / (2 - self.beta)
+        self.p1 = n1 / (2 - self.beta)
+        self.p0 /= self.p0 + self.p1
+        self.p1 /= self.p0 + self.p1
         self.n_negative_sampled = np.random.binomial(self.sample_size, self.p0, 1)[0]
         self.n_positive_sampled = self.sample_size - self.n_negative_sampled
 
@@ -63,14 +66,16 @@ class KronGraph:
     def create_sample(self):  # p0 = (1-beta), p1 = 1
         self.logger('Create sample started for sample size ' + str(self.sample_size))
         sample_negative = set(np.random.choice(np.arange(self.n_negative), self.n_negative_sampled, replace=False))
-        sample_positive = set(
-            self.n_negative + np.random.choice(np.arange(self.n_positive), self.n_positive_sampled, replace=False))
+        sample_positive = set(self.n_negative + np.random.choice(np.arange(self.n_positive), self.n_positive_sampled, replace=False))
         self.sample = {n: {} for n in sample_negative}
         self.sample.update({n: {} for n in sample_positive})
 
         nodes_to_calc = len(self.sample)
+        self.logger('Sample size: {}'.format(nodes_to_calc))
+
         print_each = int(nodes_to_calc * 0.1)
         i = 0
+        self.logger('Creating {} negative samples...'.format(len(sample_negative)))
         for node in sample_negative:
             i += 1
             if not i % print_each: self.logger('Calulating node {}/{}'.format(i, nodes_to_calc))
@@ -85,6 +90,7 @@ class KronGraph:
             if not self.sample[node]['nb_neg']: self.sample[node]['nb_neg'] = 1
             self.sample[node]['nb1_ratio'] = self.sample[node]['nb_pos'] / self.sample[node]['nb_neg']
 
+        self.logger('Creating {} positive samples...'.format(len(sample_positive)))
         for node in sample_positive:
             i += 1
             if not i % print_each: self.logger('Calulating node {}/{}'.format(i, nodes_to_calc))
