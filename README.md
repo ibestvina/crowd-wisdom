@@ -7,7 +7,7 @@ Author: Ivan Bestvina
 Mentor: Mile Šikić, PhD
 
 
-## Contents
+### Contents
 Supplement project code demonstrating the election results estimation from the biased network samples is presented in the [performance analysis notebook](performance_analysis.ipynb). Code here is slow, but easily readable, following the algorithms described in the thesis directly. Its purpose is to provide a deeper insight into the methods used, and to show how the performance graphs are generated from the simulations.
 
 To execute simulations on a large scale, use the higly optimized code found in [simulations](simulations) folder:
