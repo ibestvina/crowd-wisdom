@@ -4,6 +4,7 @@ import sys
 import numpy as np
 import time
 
+repeat = 1000
 
 netid = int(sys.argv[1])
 
@@ -37,14 +38,9 @@ kron = np.array([[0.770117, 0.794312], [0.794312, 0.0965146]])
 for beta in [0.0, 0.3, 0.8]:
     kg = KronGraph(kron, int(net.k), int(net.n0), int(net.n1), net.p_in_a, net.p_in_b, net.p_out, initial_sample, beta, logger=to_log)
 
-    for sample_perc in sample_at:
-        to_log('Subsampling at ' + str(sample_perc))
-        kg.subsample_params_calc(sample_perc)
-        to_results(result_to_str(net, kg, beta, sample_perc))
-
-
-
-
-
-
-
+    for i in range(repeat):
+        to_log('Repetition {}/{}'.format(i,repeat))
+        for sample_perc in sample_at:
+            #to_log('Subsampling at ' + str(sample_perc))
+            kg.subsample_params_calc(sample_perc)
+            to_results(result_to_str(net, kg, beta, sample_perc))
